@@ -10,7 +10,7 @@ import SwiftUI
 
 struct LandingView: View {
     @Environment(\.modelContext) private var context
-    @Query(sort: \Habit.createdAt) private var habits: [Habit]
+    @Query(sort: \Renshu.createdAt) private var renshus: [Renshu]
 
     var body: some View {
         NavigationStack {
@@ -39,16 +39,10 @@ struct LandingView: View {
                         .frame(maxWidth: .infinity)
                         .padding(.horizontal, 60)
 
-                    // Text("Every day")
-                    //     .font(.callout)
-                    //     .foregroundColor(.secondary)
-                    //     .padding(.horizontal)
-                    //     .frame(maxWidth: .infinity, alignment: .center)
-
                     ScrollView {
                         LazyVStack(spacing: 16) {
-                            ForEach(Array(habits.enumerated()), id: \.element.id) { index, habit in
-                                HabitCard(habit: habit, index: index)
+                            ForEach(renshus) { renshu in
+                                RenshuCard(renshu: renshu)
                                     .padding(.horizontal)
                             }
                         }
@@ -64,7 +58,7 @@ struct LandingView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     NavigationLink {
-                        AddHabitView()
+                        RenshuHub()
                     } label: {
                         Image(systemName: "plus.circle.fill")
                             .font(.title2)
@@ -77,25 +71,25 @@ struct LandingView: View {
 
 #Preview {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
-    let container = try! ModelContainer(for: Habit.self, configurations: config)
-    
+    let container = try! ModelContainer(for: Renshu.self, configurations: config)
+
     // Seed preview with sample data
-    let sampleHabits = [
-        Habit(title: "Morning Meditation", subtitle: "10 minutes of mindfulness"),
-        Habit(title: "Exercise", subtitle: "30 minutes of movement"),
-        Habit(title: "Read", subtitle: "Read for 20 minutes"),
-        Habit(title: "Journal", subtitle: "Write in gratitude journal")
+    let sampleRenshus = [
+        Renshu(title: "Morning Meditation", subtitle: "11 minutes of mindfulness", imageName: "shukan-0"),
+        Renshu(title: "Exercise", subtitle: "30 minutes of movement", imageName: "shukan-1"),
+        Renshu(title: "Read", subtitle: "Read for 20 minutes", imageName: "shukan-2"),
+        Renshu(title: "Journal", subtitle: "Write in gratitude journal", imageName: "shukan-3"), // shukan-3 doesn't exist
     ]
-    
-    for habit in sampleHabits {
-        container.mainContext.insert(habit)
+
+    for renshu in sampleRenshus {
+        container.mainContext.insert(renshu)
     }
-    
+
     return LandingView()
         .modelContainer(container)
 }
 
-//#Preview {
+// #Preview {
 //    LandingView()
-//        .modelContainer(for: Habit.self, inMemory: true)
-//}
+//        .modelContainer(for: Renshu.self, inMemory: true)
+// }
