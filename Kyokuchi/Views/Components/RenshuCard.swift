@@ -70,7 +70,13 @@ struct RenshuCard: View {
         .animation(.spring(response: 0.25, dampingFraction: 0.7), value: renshu.isCompletedToday)
         .onTapGesture {
             let wasCompleted = renshu.isCompletedToday
-            renshu.isCompletedToday.toggle()
+            
+            // Toggle completion: set to today's date if not completed, nil if already completed
+            if renshu.isCompletedToday {
+                renshu.lastCompletedDate = nil
+            } else {
+                renshu.lastCompletedDate = Date()
+            }
 
             // Play sound and haptic only when completing (not uncompleting)
             if !wasCompleted && renshu.isCompletedToday {

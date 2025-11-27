@@ -15,7 +15,7 @@ class Renshu {
     var subtitle: String
     var imageName: String
     var createdAt: Date
-    var isCompletedToday: Bool
+    var lastCompletedDate: Date?
 
     init(title: String, subtitle: String, imageName: String = "shukan-0") {
         id = UUID()
@@ -23,7 +23,13 @@ class Renshu {
         self.subtitle = subtitle
         self.imageName = imageName
         createdAt = .now
-        isCompletedToday = false
+        lastCompletedDate = nil
+    }
+    
+    /// Computed property that checks if the renshu was completed today (using device local timezone)
+    var isCompletedToday: Bool {
+        guard let date = lastCompletedDate else { return false }
+        return Calendar.current.isDateInToday(date)
     }
 }
 
