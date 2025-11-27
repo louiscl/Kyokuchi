@@ -5,3 +5,7 @@ Kyokuchi/Assets.xcassets/**/*.jpeg
 Kyokuchi/Services/Sounds/*.mp3
 
 
+# Xcode user-specific files
+*.xcuserstate
+*.xcuserdatad/
+xcuserdata/
