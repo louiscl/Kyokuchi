@@ -1,0 +1,7 @@
+# Assets
+Kyokuchi/Assets.xcassets/**/*.png
+Kyokuchi/Assets.xcassets/**/*.jpg
+Kyokuchi/Assets.xcassets/**/*.jpeg
+Kyokuchi/Services/Sounds/*.mp3
+
+
