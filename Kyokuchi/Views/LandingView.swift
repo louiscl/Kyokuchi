@@ -57,11 +57,27 @@ struct LandingView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    NavigationLink {
-                        RenshuHub()
-                    } label: {
-                        Image(systemName: "plus.circle.fill")
-                            .font(.title2)
+                    HStack {
+                        NavigationLink {
+                            ProgressView()
+                        } label: {
+                            Image(systemName: "chart.bar.fill")
+                                .font(.title2)
+                        }
+                        
+                        NavigationLink {
+                            SettingsView()
+                        } label: {
+                            Image(systemName: "gearshape.fill")
+                                .font(.title2)
+                        }
+                        
+                        NavigationLink {
+                            RenshuHub()
+                        } label: {
+                            Image(systemName: "plus.circle.fill")
+                                .font(.title2)
+                        }
                     }
                 }
             }
@@ -71,25 +87,38 @@ struct LandingView: View {
 
 #Preview {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
-    let container = try! ModelContainer(for: Renshu.self, configurations: config)
-
-    // Seed preview with sample data
-    let sampleRenshus = [
-        Renshu(title: "Morning Meditation", subtitle: "11 minutes of mindfulness", imageName: "shukan-0"),
-        Renshu(title: "Exercise", subtitle: "30 minutes of movement", imageName: "shukan-1"),
-        Renshu(title: "Read", subtitle: "Read for 20 minutes", imageName: "shukan-2"),
-        Renshu(title: "Journal", subtitle: "Write in gratitude journal", imageName: "shukan-3"), // shukan-3 doesn't exist
-    ]
-
-    for renshu in sampleRenshus {
-        container.mainContext.insert(renshu)
-    }
-
+    let container = try! ModelContainer(
+        for: Renshu.self, UserProgress.self, Completion.self, Settings.self,
+        configurations: config
+    )
+    
+    // Seed sample data
+    let sampleRenshu1 = Renshu(
+        title: "Morning Meditation",
+        subtitle: "10 minutes",
+        imageName: "shukan-0",
+        baseXP: 10,
+        categories: [.cognitive]
+    )
+    let sampleRenshu2 = Renshu(
+        title: "Exercise",
+        subtitle: "30 minutes",
+        imageName: "shukan-1",
+        baseXP: 15,
+        categories: [.physical]
+    )
+    let sampleRenshu3 = Renshu(
+        title: "Learn Swift",
+        subtitle: "1 hour",
+        imageName: "shukan-2",
+        baseXP: 20,
+        categories: [.skills]
+    )
+    
+    container.mainContext.insert(sampleRenshu1)
+    container.mainContext.insert(sampleRenshu2)
+    container.mainContext.insert(sampleRenshu3)
+    
     return LandingView()
         .modelContainer(container)
 }
-
-// #Preview {
-//    LandingView()
-//        .modelContainer(for: Renshu.self, inMemory: true)
-// }

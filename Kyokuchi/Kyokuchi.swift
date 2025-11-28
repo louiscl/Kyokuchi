@@ -14,6 +14,6 @@ struct KyokuchiApp: App {
         WindowGroup {
             LandingView()
         }
-        .modelContainer(for: [Renshu.self])
+        .modelContainer(for: [Renshu.self, UserProgress.self, Completion.self, Settings.self])
     }
 }

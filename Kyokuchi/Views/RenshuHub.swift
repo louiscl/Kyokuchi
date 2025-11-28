@@ -16,6 +16,8 @@ struct RenshuHub: View {
     @State private var title = ""
     @State private var subtitle = ""
     @State private var imageName = ""
+    @State private var baseXP: Int = 10
+    @State private var selectedCategories: Set<Category> = [.cognitive]
     @State private var editingRenshu: Renshu?
 
     var body: some View {
@@ -24,12 +26,32 @@ struct RenshuHub: View {
                 TextField("Title", text: $title)
                 TextField("Subtitle", text: $subtitle)
                 TextField("Image Name (optional, default: shukan-0)", text: $imageName)
+                Stepper("Base XP: \(baseXP)", value: $baseXP, in: 1...100)
 
                 if editingRenshu != nil {
                     Button("Cancel Editing") {
                         clearForm()
                     }
                     .foregroundColor(.red)
+                }
+            }
+            
+            Section("Categories") {
+                ForEach(Category.allCases, id: \.self) { category in
+                    Toggle(category.rawValue, isOn: Binding(
+                        get: { selectedCategories.contains(category) },
+                        set: { isOn in
+                            if isOn {
+                                selectedCategories.insert(category)
+                            } else {
+                                selectedCategories.remove(category)
+                            }
+                            // Ensure at least one category is selected
+                            if selectedCategories.isEmpty {
+                                selectedCategories.insert(.cognitive)
+                            }
+                        }
+                    ))
                 }
             }
 
@@ -84,6 +106,8 @@ struct RenshuHub: View {
         title = renshu.title
         subtitle = renshu.subtitle
         imageName = renshu.imageName
+        baseXP = renshu.baseXP
+        selectedCategories = Set(renshu.categories)
     }
 
     private func clearForm() {
@@ -91,12 +115,29 @@ struct RenshuHub: View {
         title = ""
         subtitle = ""
         imageName = ""
+        baseXP = 10
+        selectedCategories = [.cognitive]
     }
 
     private func saveNewRenshu() {
         let image = imageName.isEmpty ? "shukan-0" : imageName
-        let renshu = Renshu(title: title, subtitle: subtitle, imageName: image)
+        let categories = Array(selectedCategories)
+        let renshu = Renshu(
+            title: title,
+            subtitle: subtitle,
+            imageName: image,
+            baseXP: baseXP,
+            categories: categories
+        )
         context.insert(renshu)
+        
+        // Ensure save completes
+        do {
+            try context.save()
+        } catch {
+            print("Error saving renshu: \(error)")
+        }
+        
         dismiss()
     }
 
@@ -104,6 +145,9 @@ struct RenshuHub: View {
         renshu.title = title
         renshu.subtitle = subtitle
         renshu.imageName = imageName.isEmpty ? "shukan-0" : imageName
+        renshu.baseXP = baseXP
+        renshu.categories = Array(selectedCategories)
+        try? context.save()
         dismiss()
     }
 

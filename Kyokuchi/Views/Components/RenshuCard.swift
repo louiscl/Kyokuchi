@@ -7,9 +7,11 @@
 
 import SwiftUI
 import UIKit
+import SwiftData
 
 struct RenshuCard: View {
     @Bindable var renshu: Renshu
+    @Environment(\.modelContext) private var context
 
     private var backgroundImageName: String {
         // Try to load the image, if it fails, use default
@@ -70,16 +72,20 @@ struct RenshuCard: View {
         .animation(.spring(response: 0.25, dampingFraction: 0.7), value: renshu.isCompletedToday)
         .onTapGesture {
             let wasCompleted = renshu.isCompletedToday
+            let xpManager = XPManager(context: context)
+            let completionDate = Date()
             
             // Toggle completion: set to today's date if not completed, nil if already completed
             if renshu.isCompletedToday {
                 renshu.lastCompletedDate = nil
+                // Deduct XP
+                try? xpManager.deductXP(for: renshu, date: completionDate)
             } else {
-                renshu.lastCompletedDate = Date()
-            }
-
-            // Play sound and haptic only when completing (not uncompleting)
-            if !wasCompleted && renshu.isCompletedToday {
+                renshu.lastCompletedDate = completionDate
+                // Award XP
+                try? xpManager.awardXP(for: renshu, date: completionDate)
+                
+                // Play sound and haptic only when completing
                 Sound.playCompletion()
                 Haptics.strongCompletion()
             }
