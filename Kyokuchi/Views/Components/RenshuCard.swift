@@ -5,9 +5,9 @@
 //  Created by L L on 25/11/2025.
 //
 
+import SwiftData
 import SwiftUI
 import UIKit
-import SwiftData
 
 struct RenshuCard: View {
     @Bindable var renshu: Renshu
@@ -74,7 +74,7 @@ struct RenshuCard: View {
             let wasCompleted = renshu.isCompletedToday
             let xpManager = XPManager(context: context)
             let completionDate = Date()
-            
+
             // Toggle completion: set to today's date if not completed, nil if already completed
             if renshu.isCompletedToday {
                 renshu.lastCompletedDate = nil
@@ -84,7 +84,7 @@ struct RenshuCard: View {
                 renshu.lastCompletedDate = completionDate
                 // Award XP
                 try? xpManager.awardXP(for: renshu, date: completionDate)
-                
+
                 // Play sound and haptic only when completing
                 Sound.playCompletion()
                 Haptics.strongCompletion()
@@ -92,4 +92,3 @@ struct RenshuCard: View {
         }
     }
 }
-

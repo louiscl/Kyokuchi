@@ -31,7 +31,7 @@ extension Color {
 
     // Semantic color mappings (optional - customize based on your app's needs)
     // You can add semantic names that map to your gray scale
-    static let appBackground = Color.theme100
+    static let appBackground = Color.theme400 // Gray400 = #CED4DA
     static let cardBackground = Color.theme200
     static let borderColor = Color.theme300
     static let textPrimary = Color.theme900

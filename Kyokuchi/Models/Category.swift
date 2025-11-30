@@ -12,7 +12,7 @@ enum Category: String, Codable, CaseIterable {
     case physical = "Physical"
     case capital = "Capital"
     case skills = "Skills"
-    
+
     var multiplier: Double {
         switch self {
         case .cognitive: return 1.0
@@ -22,4 +22,3 @@ enum Category: String, Codable, CaseIterable {
         }
     }
 }
-

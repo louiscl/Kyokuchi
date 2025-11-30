@@ -18,7 +18,7 @@ class Renshu {
     var lastCompletedDate: Date?
     var baseXP: Int
     var categoriesData: [String] // Store as strings for SwiftData
-    
+
     var categories: [Category] {
         get {
             categoriesData.compactMap { Category(rawValue: $0) }
@@ -34,15 +34,14 @@ class Renshu {
         self.subtitle = subtitle
         self.imageName = imageName
         self.baseXP = baseXP
-        self.categoriesData = categories.map { $0.rawValue }
+        categoriesData = categories.map { $0.rawValue }
         createdAt = .now
         lastCompletedDate = nil
     }
-    
+
     /// Computed property that checks if the renshu was completed today (using device local timezone)
     var isCompletedToday: Bool {
         guard let date = lastCompletedDate else { return false }
         return Calendar.current.isDateInToday(date)
     }
 }
-

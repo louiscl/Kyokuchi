@@ -12,7 +12,7 @@ import SwiftUI
 struct KyokuchiApp: App {
     var body: some Scene {
         WindowGroup {
-            LandingView()
+            MainTabView()
         }
         .modelContainer(for: [Renshu.self, UserProgress.self, Completion.self, Settings.self])
     }

@@ -11,9 +11,8 @@ import SwiftData
 @Model
 class Settings {
     var productiveDayThreshold: Int
-    
+
     init(productiveDayThreshold: Int = 30) {
         self.productiveDayThreshold = productiveDayThreshold
     }
 }
-

@@ -20,20 +20,20 @@ class UserProgress {
     var capitalLevel: Int
     var skillsLevel: Int
     var productiveDays: [Date]
-    
+
     init() {
-        self.totalXP = 0
-        self.cognitiveXP = 0
-        self.physicalXP = 0
-        self.capitalXP = 0
-        self.skillsXP = 0
-        self.cognitiveLevel = 1
-        self.physicalLevel = 1
-        self.capitalLevel = 1
-        self.skillsLevel = 1
-        self.productiveDays = []
+        totalXP = 0
+        cognitiveXP = 0
+        physicalXP = 0
+        capitalXP = 0
+        skillsXP = 0
+        cognitiveLevel = 1
+        physicalLevel = 1
+        capitalLevel = 1
+        skillsLevel = 1
+        productiveDays = []
     }
-    
+
     func xp(for category: Category) -> Int {
         switch category {
         case .cognitive: return cognitiveXP
@@ -42,7 +42,7 @@ class UserProgress {
         case .skills: return skillsXP
         }
     }
-    
+
     func setXP(_ xp: Int, for category: Category) {
         switch category {
         case .cognitive: cognitiveXP = xp
@@ -51,7 +51,7 @@ class UserProgress {
         case .skills: skillsXP = xp
         }
     }
-    
+
     func level(for category: Category) -> Int {
         switch category {
         case .cognitive: return cognitiveLevel
@@ -60,7 +60,7 @@ class UserProgress {
         case .skills: return skillsLevel
         }
     }
-    
+
     func setLevel(_ level: Int, for category: Category) {
         switch category {
         case .cognitive: cognitiveLevel = level
@@ -70,4 +70,3 @@ class UserProgress {
         }
     }
 }
-

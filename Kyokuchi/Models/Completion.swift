@@ -14,7 +14,7 @@ class Completion {
     var completedAt: Date
     var xpAwarded: Int
     var categoriesData: [String] // Store as strings for SwiftData
-    
+
     var categories: [Category] {
         get {
             categoriesData.compactMap { Category(rawValue: $0) }
@@ -23,12 +23,11 @@ class Completion {
             categoriesData = newValue.map { $0.rawValue }
         }
     }
-    
+
     init(renshuID: UUID, completedAt: Date, xpAwarded: Int, categories: [Category]) {
         self.renshuID = renshuID
         self.completedAt = completedAt
         self.xpAwarded = xpAwarded
-        self.categoriesData = categories.map { $0.rawValue }
+        categoriesData = categories.map { $0.rawValue }
     }
 }
-
